@@ -7,7 +7,21 @@ async function get_activity(req, res) {
 
 async function addActivity(req, res) {
   const bodyData = req.body || {};
-  const made = await aSvc.createNewActivity(bodyData);
+
+  if (typeof bodyData.action !== 'string' || bodyData.action.trim().length === 0) {
+    return res.status(400).json({ error: { message: '"action" is required and must be a non-empty string.' } });
+  }
+
+  if (bodyData.info !== undefined && typeof bodyData.info !== 'string') {
+    return res.status(400).json({ error: { message: '"info" must be a string.' } });
+  }
+
+  const payload = {
+    action: bodyData.action.trim(),
+    info: bodyData.info,
+  };
+
+  const made = await aSvc.createNewActivity(payload);
   res.status(201).json(made);
 }
 

@@ -19,7 +19,11 @@ function errorHandler(error, req, res, next) {
   }
 
   if (statusCode >= 500) {
-    console.error(error);
+    if (process.env.NODE_ENV !== 'production') {
+      console.error(error);
+    } else {
+      console.error({ message: error.message, statusCode });
+    }
   }
 
   return res.status(statusCode).json(response);
