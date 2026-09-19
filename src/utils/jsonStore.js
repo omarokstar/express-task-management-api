@@ -47,8 +47,13 @@ async function writeJsonArray(filePath, data) {
   await fs.writeFile(filePath, `${JSON.stringify(data, null, 2)}\n`, 'utf-8');
 }
 
+function clearCache() {
+  cache.clear();
+}
+
 module.exports = {
   readJsonArray,
   writeJsonArray,
   mutateJsonArray,
+  clearCache,
 };
