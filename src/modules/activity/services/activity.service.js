@@ -2,7 +2,7 @@ const path = require('node:path');
 const { readJsonArray, mutateJsonArray } = require('../../../utils/jsonStore');
 const { createId } = require('../../../utils/id');
 
-const fp = path.join(process.cwd(), 'data', 'activity.json');
+const fp = path.join(__dirname, '../../../../data/activity.json');
 
 async function getAllActivity() {
   const arr = await readJsonArray(fp);
