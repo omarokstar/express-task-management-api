@@ -1,41 +1,15 @@
-const fs = require('node:fs');
 const path = require('node:path');
+const { readJsonArray, writeJsonArray } = require('../../../utils/jsonStore');
 
 const fp = path.join(process.cwd(), 'data', 'activity.json');
 
-function loadDataA() {
-  if (!fs.existsSync(fp)) {
-    fs.writeFileSync(fp, '[]');
-  }
-
-  let raw = fs.readFileSync(fp, 'utf8');
-  if (!raw) {
-    raw = '[]';
-  }
-
-  return JSON.parse(raw);
-}
-
-function loadDataB() {
-  if (!fs.existsSync(fp)) {
-    fs.writeFileSync(fp, '[]');
-  }
-
-  let raw = fs.readFileSync(fp, 'utf8');
-  if (!raw) {
-    raw = '[]';
-  }
-
-  return JSON.parse(raw);
-}
-
-function getAllActivity() {
-  const arr = loadDataA();
+async function getAllActivity() {
+  const arr = await readJsonArray(fp);
   return arr;
 }
 
-function createNewActivity(b) {
-  const list = loadDataB();
+async function createNewActivity(b) {
+  const list = await readJsonArray(fp);
   const one = {
     id: String(Date.now()),
     action: b.action,
@@ -44,7 +18,7 @@ function createNewActivity(b) {
   };
 
   list.push(one);
-  fs.writeFileSync(fp, JSON.stringify(list, null, 2));
+  await writeJsonArray(fp, list);
   return one;
 }
 
