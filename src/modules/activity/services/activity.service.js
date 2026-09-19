@@ -1,27 +1,25 @@
-const path = require('node:path');
 const { readJsonArray, mutateJsonArray } = require('../../../utils/jsonStore');
 const { createId } = require('../../../utils/id');
-
-const fp = path.join(__dirname, '../../../../data/activity.json');
+const { ACTIVITY_FILE } = require('../../../config');
 
 async function getAllActivity() {
-  const arr = await readJsonArray(fp);
+  const arr = await readJsonArray(ACTIVITY_FILE);
   return arr;
 }
 
-async function createNewActivity(b) {
-  const one = {
+async function createNewActivity(payload) {
+  const newActivity = {
     id: createId(),
-    action: b.action,
-    info: b.info,
+    action: payload.action,
+    info: payload.info,
     when: new Date().toISOString(),
   };
 
-  await mutateJsonArray(fp, (list) => {
-    list.push(one);
+  await mutateJsonArray(ACTIVITY_FILE, (list) => {
+    list.push(newActivity);
   });
   
-  return one;
+  return newActivity;
 }
 
 module.exports = {

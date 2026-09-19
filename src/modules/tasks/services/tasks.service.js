@@ -4,7 +4,7 @@ const { createId } = require('../../../utils/id');
 const { readJsonArray, writeJsonArray, mutateJsonArray } = require('../../../utils/jsonStore');
 const HttpError = require('../../../utils/httpError');
 
-const TASKS_FILE_PATH = path.join(__dirname, '../../../../data/tasks.json');
+const { TASKS_FILE } = require('../../../config');
 
 function buildTaskRecord(payload) {
   const now = new Date().toISOString();
@@ -30,11 +30,11 @@ function getIndex(tasks) {
 }
 
 async function getAllTasks() {
-  return readJsonArray(TASKS_FILE_PATH);
+  return readJsonArray(TASKS_FILE);
 }
 
 async function getTaskById(taskId) {
-  const tasks = await readJsonArray(TASKS_FILE_PATH);
+  const tasks = await readJsonArray(TASKS_FILE);
   const indexMap = getIndex(tasks);
   const index = indexMap.get(taskId);
 
@@ -48,7 +48,7 @@ async function getTaskById(taskId) {
 async function createTask(payload) {
   const newTask = buildTaskRecord(payload);
 
-  await mutateJsonArray(TASKS_FILE_PATH, (tasks) => {
+  await mutateJsonArray(TASKS_FILE, (tasks) => {
     const indexMap = getIndex(tasks);
     tasks.push(newTask);
     indexMap.set(newTask.id, tasks.length - 1);
@@ -58,7 +58,7 @@ async function createTask(payload) {
 }
 
 async function updateTask(taskId, updates) {
-  return await mutateJsonArray(TASKS_FILE_PATH, (tasks) => {
+  return await mutateJsonArray(TASKS_FILE, (tasks) => {
     const indexMap = getIndex(tasks);
     const taskIndex = indexMap.get(taskId);
 
@@ -80,7 +80,7 @@ async function updateTask(taskId, updates) {
 }
 
 async function deleteTask(taskId) {
-  return await mutateJsonArray(TASKS_FILE_PATH, (tasks) => {
+  return await mutateJsonArray(TASKS_FILE, (tasks) => {
     const indexMap = getIndex(tasks);
     const taskIndex = indexMap.get(taskId);
 
