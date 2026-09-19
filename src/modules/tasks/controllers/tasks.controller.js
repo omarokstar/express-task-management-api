@@ -54,6 +54,9 @@ async function patchTask(req, res) {
 
   if (typeof updates.title === 'string') {
     updates.title = updates.title.trim();
+    if (updates.title.length === 0) {
+      return res.status(400).json({ error: { message: '"title" cannot be empty.' } });
+    }
   }
 
   if (
