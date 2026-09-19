@@ -34,18 +34,6 @@ async function getTaskById(taskId) {
 }
 
 async function createTask(payload) {
-  if (!payload.title || typeof payload.title !== 'string') {
-    throw new HttpError(400, 'Invalid title.');
-  }
-
-  if (payload.completed !== undefined && typeof payload.completed !== 'boolean') {
-    throw new HttpError(400, 'Invalid completed value.');
-  }
-
-  if (payload.completed === undefined) {
-    payload.completed = false;
-  }
-
   const newTask = buildTaskRecord(payload);
 
   await mutateJsonArray(TASKS_FILE_PATH, (tasks) => {
@@ -56,14 +44,6 @@ async function createTask(payload) {
 }
 
 async function updateTask(taskId, updates) {
-  if (typeof updates.title === 'string' && updates.title.length < 2) {
-    throw new HttpError(400, 'Title is too short.');
-  }
-
-  if (updates.completed !== undefined && typeof updates.completed !== 'boolean') {
-    throw new HttpError(400, 'completed must be boolean');
-  }
-
   return await mutateJsonArray(TASKS_FILE_PATH, (tasks) => {
     const taskIndex = tasks.findIndex((item) => item.id === taskId);
 
