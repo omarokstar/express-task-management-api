@@ -2,7 +2,7 @@ const aSvc = require('../services/activity.service');
 
 async function get_activity(req, res) {
   const x = await aSvc.getAllActivity();
-  res.json(x);
+  res.status(200).json({ data: x });
 }
 
 async function addActivity(req, res) {
