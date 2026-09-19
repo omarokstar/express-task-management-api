@@ -1,5 +1,6 @@
 const path = require('node:path');
 const { readJsonArray, mutateJsonArray } = require('../../../utils/jsonStore');
+const { createId } = require('../../../utils/id');
 
 const fp = path.join(process.cwd(), 'data', 'activity.json');
 
@@ -10,7 +11,7 @@ async function getAllActivity() {
 
 async function createNewActivity(b) {
   const one = {
-    id: String(Date.now()),
+    id: createId(),
     action: b.action,
     info: b.info,
     when: new Date().toISOString(),
