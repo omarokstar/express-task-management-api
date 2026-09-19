@@ -74,7 +74,8 @@ async function updateTask(taskId, updates) {
     const existingTask = tasks[taskIndex];
     const updatedTask = {
       ...existingTask,
-      ...updates,
+      ...(updates.title !== undefined && { title: updates.title }),
+      ...(updates.completed !== undefined && { completed: updates.completed }),
       updatedAt: new Date().toISOString(),
     };
 
