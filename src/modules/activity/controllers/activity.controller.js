@@ -1,7 +1,7 @@
 const activityService = require('../services/activity.service');
 const { validateCreateActivity } = require('../utils/activityValidator');
 
-async function getActivity(req, res) {
+async function getActivity(_req, res) {
   const activities = await activityService.getAllActivity();
   res.status(200).json({ data: activities });
 }

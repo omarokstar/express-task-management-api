@@ -1,7 +1,7 @@
 const tasksService = require('../services/tasks.service');
 const { validateCreateTask, validateUpdateTask } = require('../utils/taskValidator');
 
-async function listTasks(req, res) {
+async function listTasks(_req, res) {
   const tasks = await tasksService.getAllTasks();
   res.status(200).json({ data: tasks });
 }
