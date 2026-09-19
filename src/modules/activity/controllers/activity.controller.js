@@ -9,7 +9,7 @@ async function getActivity(req, res) {
 async function addActivity(req, res) {
   const payload = validateCreateActivity(req.body);
   const newActivity = await activityService.createNewActivity(payload);
-  res.status(201).json(newActivity);
+  res.status(201).json({ data: newActivity });
 }
 
 module.exports = {

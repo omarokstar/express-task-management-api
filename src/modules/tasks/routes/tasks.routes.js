@@ -11,4 +11,16 @@ tasksRouter.post('/', asyncHandler(tasksController.createTask));
 tasksRouter.patch('/:id', asyncHandler(tasksController.patchTask));
 tasksRouter.delete('/:id', asyncHandler(tasksController.removeTask));
 
+tasksRouter.all('/', (req, res) => {
+  res.set('Allow', 'GET, POST')
+     .status(405)
+     .json({ error: { message: `Method ${req.method} not allowed.` } });
+});
+
+tasksRouter.all('/:id', (req, res) => {
+  res.set('Allow', 'GET, PATCH, DELETE')
+     .status(405)
+     .json({ error: { message: `Method ${req.method} not allowed.` } });
+});
+
 module.exports = tasksRouter;
