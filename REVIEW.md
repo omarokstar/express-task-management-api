@@ -22,7 +22,6 @@
 | MAINT-002   | Maintainability | Validation split across controller and service layers                 | Medium   |
 | MAINT-003   | Maintainability | Inconsistent naming conventions in the activity module                | Low      |
 | MAINT-004   | Maintainability | Data file paths hard-coded, not environment-configurable              | Low      |
-| MAINT-005   | Maintainability | No tests — zero coverage, no test runner                              | Medium   |
 | MAINT-006   | Maintainability | Activity module structure asymmetric with the tasks module            | Low      |
 | SEC-001     | Security        | No input validation on `POST /activity`                               | Medium   |
 | SEC-002     | Security        | Unknown request fields persisted via unchecked spread                 | Medium   |
@@ -704,35 +703,6 @@ const DATA_DIR = process.env.DATA_DIR ?? path.join(__dirname, '../data');
 exports.TASKS_FILE    = path.join(DATA_DIR, 'tasks.json');
 exports.ACTIVITY_FILE = path.join(DATA_DIR, 'activity.json');
 ```
-
----
-
-## MAINT-005 — No tests — zero coverage, no test runner
-
-**What is wrong?**
-
-The project has no test files, no test runner, and no `test` script.
-
-```json
-// package.json
-"scripts": {
-  "start": "node src/server.js",
-  "dev": "node --watch src/server.js"
-}
-```
-
-**Why is it a problem?**
-
-Every refactor carries full regression risk. The hard-coded file paths and absence of
-dependency injection make unit testing impossible without mocking `fs` at the module
-level. BUG-003 (race condition) and BUG-004 (empty title) would be caught immediately
-by basic unit tests.
-
-**How to improve it:**
-
-Add a test runner (`vitest` or `jest`). Refactor services to accept an injectable file
-path so integration tests can point at temporary files. Write unit tests for all
-validator functions and service functions, and integration tests for each API route.
 
 ---
 
